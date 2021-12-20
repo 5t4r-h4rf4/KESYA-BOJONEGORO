@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Livewire\MapCoba;
 use App\Http\Livewire\MapIndex;
 use Illuminate\Support\Facades\Route;
 use App\Http\Livewire\MapLocation;
@@ -22,5 +23,5 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/map', MapLocation::class)->name('map.create');
-Route::get('/coba', [MapLocation::class, 'coba'])->name('coba');
+Route::get('/coba', MapCoba::class)->name('map.coba');
 Route::get('/', MapIndex::class)->name('map.index');

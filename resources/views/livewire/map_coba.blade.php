@@ -1,75 +1,111 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>Show polygon information on click</title>
-<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
-<link href="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.css" rel="stylesheet">
-<script src="https://api.mapbox.com/mapbox-gl-js/v2.6.1/mapbox-gl.js"></script>
-<style>
-body { margin: 0; padding: 0; }
-#map { position: absolute; top: 0; bottom: 0; width: 100%; }
-</style>
-</head>
-<body>
-<style>
-    .mapboxgl-popup {
+<div>
+    <style>
+        .mapboxgl-popup {
         max-width: 400px;
         font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
-    }
-</style>
-<div id="map"></div>
+        }
+    </style>
+    <div class="container">
+        <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header bg-dark text-white">
+                            <h3>Data Fasilitas Kesehatan Kabupaten Bojonegoro<a href="{{route('map.create')}}" class="btn btn-light" style="float: right;"><b>Tambah</b></a></h3>
+                        </div>
+                        <div class="card-body">
+                            <div wire:ignore id='map' style='width: 100%; height: 80vh;'></div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+
+
+
+@push('scripts')
+
 <script>
-	mapboxgl.accessToken = 'pk.eyJ1IjoiYmludGFuZ2hhcmZhIiwiYSI6ImNrd3pxZXI5OTAyNWUycHM2ZmFqNmpud2EifQ.C6wU7YjY6QMpvRMXxjrZ-g';
-    // Create a new map.
+   document.addEventListener('livewire:load', () => {
+    const defaultLocation = [111.81076691473959, -7.243110156823164]
+    mapboxgl.accessToken = '{{env("MAPBOX_KEY")}}';
     const map = new mapboxgl.Map({
         container: 'map',
-        style: 'mapbox://styles/mapbox/streets-v11',
-        center: [-100.04, 38.907],
-        zoom: 3
+        center: defaultLocation,
+        zoom: 9.50,
+        style: 'mapbox://styles/mapbox/dark-v10'
     });
 
     map.on('load', () => {
-        // Add a source for the state polygons.
-        map.addSource('states', {
-            'type': 'geojson',
-            'data': 'https://docs.mapbox.com/mapbox-gl-js/assets/ne_110m_admin_1_states_provinces_shp.geojson'
-        });
+            map.addSource('polygon', {
+            type: 'geojson',
+            // Use a URL for the value for the `data` property.
+            data: 'geojson/bojonegoro.geojson'
+            });
 
-        // Add a layer showing the state polygons.
         map.addLayer({
-            'id': 'states-layer',
-            'type': 'fill',
-            'source': 'states',
-            'paint': {
-                'fill-color': 'rgba(200, 100, 240, 0.4)',
-                'fill-outline-color': 'rgba(200, 100, 240, 1)'
-            }
-        });
-
-        // When a click event occurs on a feature in the states layer,
-        // open a popup at the location of the click, with description
-        // HTML from the click event's properties.
-        map.on('click', 'states-layer', (e) => {
-            new mapboxgl.Popup()
-                .setLngLat(e.lngLat)
-                .setHTML(e.features[0].properties.name)
-                .addTo(map);
-        });
-
-        // Change the cursor to a pointer when
-        // the mouse is over the states layer.
-        map.on('mouseenter', 'states-layer', () => {
-            map.getCanvas().style.cursor = 'pointer';
-        });
-
-        // Change the cursor back to a pointer
-        // when it leaves the states layer.
-        map.on('mouseleave', 'states-layer', () => {
-            map.getCanvas().style.cursor = '';
+        'id': 'bjn-layer',
+        'type': 'fill',
+        'source': 'polygon', // reference the data source
+        'layout': {},
+        'paint': {
+        'fill-color': '#90EE90', // blue color fill
+        'fill-opacity': 0.5,
+        'fill-outline-color': '#000',
+        }
         });
     });
-</script>
 
-</body>
-</html>
+    map.on('load', () => {
+        map.addSource('bojonegoro', {
+        type: 'geojson',
+        // Use a URL for the value for the `data` property.
+        data: 'geojson/puskesmas.geojson'
+        });
+
+        map.addLayer({
+        'id': 'point',
+        'type': 'circle',
+        'source': 'bojonegoro',
+        'paint': {
+        'circle-radius': 10,
+        'circle-color': '#F84C4C' // red color
+        }
+        });
+    });
+
+     map.on('click', 'point', (e) => {
+        var jenis = e.features[0].properties.jenis;
+        var faskes = e.features[0].properties.faskes;
+    new mapboxgl.Popup()
+    .setLngLat(e.lngLat)
+    .setHTML("<table>" +
+                    "<tr>" +
+                        "<td>Jenis</td>" +
+                        "<td>:</td>" +
+                        "<td>"+jenis+"</td>" +
+                    "</tr>" +
+                    "<tr>" +
+                        "<td>Nama</td>" +
+                        "<td>:</td>" +
+                        "<td>"+faskes+"</td>" +
+                    "</tr>" +
+                    "</table>"
+                )
+    .addTo(map);
+    });
+
+
+
+    map.on('mouseenter', 'bjn-layer', () => {
+    map.getCanvas().style.cursor = 'pointer';
+    });
+
+    map.on('mouseleave', 'bjn-layer', () => {
+    map.getCanvas().style.cursor = '';
+    });
+});
+
+    </script>
+
+@endpush

@@ -158,42 +158,42 @@
     });
 
 
-    map.on('click', 'bjn-layer', (e) => {
-        var kecamatan = e.features[0].properties.kecamatan;
-        var populasi = e.features[0].properties.populasi;
-        var area = e.features[0].properties.area;
-    new mapboxgl.Popup()
-    .setLngLat(e.lngLat)
-    .setHTML("<table>" +
-                    "<tr>" +
-                        "<td>Kecamatan</td>" +
-                        "<td>:</td>" +
-                        "<td>"+kecamatan+"</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td>Populasi</td>" +
-                        "<td>:</td>" +
-                        "<td>"+populasi+"</td>" +
-                    "</tr>" +
-                    "<tr>" +
-                        "<td>area</td>" +
-                        "<td>:</td>" +
-                        "<td>"+area+"</td>" +
-                    "</tr>" +
-                    "</table>"
-                )
-    .addTo(map);
-    });
+    // map.on('click', 'bjn-layer', (e) => {
+    //     var kecamatan = e.features[0].properties.kecamatan;
+    //     var populasi = e.features[0].properties.populasi;
+    //     var area = e.features[0].properties.area;
+    // new mapboxgl.Popup()
+    // .setLngLat(e.lngLat)
+    // .setHTML("<table>" +
+    //                 "<tr>" +
+    //                     "<td>Kecamatan</td>" +
+    //                     "<td>:</td>" +
+    //                     "<td>"+kecamatan+"</td>" +
+    //                 "</tr>" +
+    //                 "<tr>" +
+    //                     "<td>Populasi</td>" +
+    //                     "<td>:</td>" +
+    //                     "<td>"+populasi+"</td>" +
+    //                 "</tr>" +
+    //                 "<tr>" +
+    //                     "<td>area</td>" +
+    //                     "<td>:</td>" +
+    //                     "<td>"+area+"</td>" +
+    //                 "</tr>" +
+    //                 "</table>"
+    //             )
+    // .addTo(map);
+    // });
 
 
 
-    map.on('mouseenter', 'bjn-layer', () => {
-    map.getCanvas().style.cursor = 'pointer';
-    });
+    // map.on('mouseenter', 'bjn-layer', () => {
+    // map.getCanvas().style.cursor = 'pointer';
+    // });
 
-    map.on('mouseleave', 'bjn-layer', () => {
-    map.getCanvas().style.cursor = '';
-    });
+    // map.on('mouseleave', 'bjn-layer', () => {
+    // map.getCanvas().style.cursor = '';
+    // });
 
     map.addControl(new mapboxgl.NavigationControl());
     map.on('click', (e) =>{

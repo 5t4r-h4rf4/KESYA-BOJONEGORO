@@ -196,25 +196,25 @@
 
 
 
-    map.on('mouseenter', 'bjn-layer', () => {
-    map.getCanvas().style.cursor = 'pointer';
+        map.on('mouseenter', 'bjn-layer', () => {
+        map.getCanvas().style.cursor = 'pointer';
+        });
+
+        map.on('mouseleave', 'bjn-layer', () => {
+        map.getCanvas().style.cursor = '';
+        });
+
+        map.addControl(new mapboxgl.NavigationControl());
+        map.on('click', (e) =>{
+            const longtitude = e.lngLat.lng
+            const lattitude = e.lngLat.lat
+
+            @this.long = longtitude
+            @this.lat = lattitude
+
+            console.log({longtitude, lattitude})
+        });
     });
-
-    map.on('mouseleave', 'bjn-layer', () => {
-    map.getCanvas().style.cursor = '';
-    });
-
-    map.addControl(new mapboxgl.NavigationControl());
-    map.on('click', (e) =>{
-        const longtitude = e.lngLat.lng
-        const lattitude = e.lngLat.lat
-
-        @this.long = longtitude
-        @this.lat = lattitude
-
-        console.log({longtitude, lattitude})
-    })
-    })
 });
 
     </script>
