@@ -1,0 +1,24 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+                            
+          ]
+        ]
+      },
+      "type": "Feature",
+      "id": 27,
+      "properties": {
+        "PERIMETER": 284683.40031615,
+        "PROPINSI": "JAWA TIMUR",
+        "POPULASI": 1216781,
+        "KABUPATEN": "BOJONEGORO",
+        "AREA": 2343191019.0593
+      }
+    }
+  ]
+}
